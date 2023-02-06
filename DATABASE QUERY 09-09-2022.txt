@@ -1,0 +1,299 @@
+USE [master]
+GO
+/****** Object:  Database [Proj_Teoria1]    Script Date: 9/9/2022 12:06:30 PM ******/
+CREATE DATABASE [Proj_Teoria1]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'Proj_Teoria_1', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\Proj_Teoria_1.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'Proj_Teoria_1_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\Proj_Teoria_1_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE [Proj_Teoria1] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Proj_Teoria1].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Proj_Teoria1] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [Proj_Teoria1] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [Proj_Teoria1] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [Proj_Teoria1] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [Proj_Teoria1] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [Proj_Teoria1] SET  MULTI_USER 
+GO
+ALTER DATABASE [Proj_Teoria1] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [Proj_Teoria1] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [Proj_Teoria1] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [Proj_Teoria1] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [Proj_Teoria1] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [Proj_Teoria1] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+ALTER DATABASE [Proj_Teoria1] SET QUERY_STORE = OFF
+GO
+USE [Proj_Teoria1]
+GO
+/****** Object:  Table [dbo].[Bug]    Script Date: 9/9/2022 12:06:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Bug](
+	[Codigo_Bug] [int] IDENTITY(1,1) NOT NULL,
+	[Codigo_Proyecto] [int] NOT NULL,
+	[Descripcion] [varchar](100) NULL,
+	[Urgencia] [int] NOT NULL,
+	[Estado] [varchar](10) NULL,
+	[Fecha_Inicio] [date] NULL,
+	[Fecha_Final] [date] NULL,
+ CONSTRAINT [PK_Bug] PRIMARY KEY CLUSTERED 
+(
+	[Codigo_Bug] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Comentario]    Script Date: 9/9/2022 12:06:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Comentario](
+	[Codigo_Comentario] [int] IDENTITY(1,1) NOT NULL,
+	[Username] [varchar](20) NOT NULL,
+	[Codigo_Bug] [int] NOT NULL,
+	[Comentario] [varchar](200) NOT NULL,
+	[Datetime] [datetime] NOT NULL,
+ CONSTRAINT [PK_Comentario] PRIMARY KEY CLUSTERED 
+(
+	[Codigo_Comentario] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Desarrollador]    Script Date: 9/9/2022 12:06:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Desarrollador](
+	[Codigo_Desarrollador] [int] NOT NULL,
+	[Username] [varchar](20) NOT NULL,
+	[Lenguajes_Programacion] [varchar](100) NULL,
+	[Tecnologias_Dominadas] [varchar](100) NULL,
+	[Equipo] [int] NULL,
+ CONSTRAINT [PK_Desarrollador] PRIMARY KEY CLUSTERED 
+(
+	[Codigo_Desarrollador] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Desarrolladores en Proyecto]    Script Date: 9/9/2022 12:06:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Desarrolladores en Proyecto](
+	[Codigo_Desarrollador] [int] NOT NULL,
+	[Codigo_Proyecto] [int] NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Proyecto_Software]    Script Date: 9/9/2022 12:06:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Proyecto_Software](
+	[Codigo_Proyecto] [int] NOT NULL,
+	[Nombre] [varchar](50) NOT NULL,
+	[Fecha_Inicio] [date] NULL,
+	[Fecha_Final] [date] NULL,
+ CONSTRAINT [PK_Proyecto_Software] PRIMARY KEY CLUSTERED 
+(
+	[Codigo_Proyecto] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 9/9/2022 12:06:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[Username] [varchar](20) NOT NULL,
+	[Password] [varchar](20) NOT NULL,
+	[Nombre_Completo] [varchar](30) NOT NULL,
+	[Rol] [varchar](20) NOT NULL,
+ CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
+(
+	[Username] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Bug] ON 
+GO
+INSERT [dbo].[Bug] ([Codigo_Bug], [Codigo_Proyecto], [Descripcion], [Urgencia], [Estado], [Fecha_Inicio], [Fecha_Final]) VALUES (1, 201, N'Problema con los shaders', 5, N'Finalizado', CAST(N'2022-08-03' AS Date), CAST(N'2022-09-06' AS Date))
+GO
+INSERT [dbo].[Bug] ([Codigo_Bug], [Codigo_Proyecto], [Descripcion], [Urgencia], [Estado], [Fecha_Inicio], [Fecha_Final]) VALUES (2, 201, N'No se encuentran Axolots', 2, N'Finalizado', CAST(N'2022-03-04' AS Date), CAST(N'2022-09-06' AS Date))
+GO
+INSERT [dbo].[Bug] ([Codigo_Bug], [Codigo_Proyecto], [Descripcion], [Urgencia], [Estado], [Fecha_Inicio], [Fecha_Final]) VALUES (3, 202, N'La Bucky cuesta mucho', 3, N'Asignado', CAST(N'2022-08-11' AS Date), NULL)
+GO
+INSERT [dbo].[Bug] ([Codigo_Bug], [Codigo_Proyecto], [Descripcion], [Urgencia], [Estado], [Fecha_Inicio], [Fecha_Final]) VALUES (4, 203, N'No funciona el VC', 5, N'Asignado', NULL, NULL)
+GO
+INSERT [dbo].[Bug] ([Codigo_Bug], [Codigo_Proyecto], [Descripcion], [Urgencia], [Estado], [Fecha_Inicio], [Fecha_Final]) VALUES (5, 202, N'El neon dash no funciona hacia atras', 1, N'Finalizado', CAST(N'2022-09-07' AS Date), CAST(N'2022-09-09' AS Date))
+GO
+SET IDENTITY_INSERT [dbo].[Bug] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Comentario] ON 
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (1, N'Joesar', 2, N'Los shaders tardan mucho en cargar. Yo creo que podria ser Optifine.', CAST(N'2022-09-06T19:51:00.000' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (2, N'Edu', 1, N'Probaste a ver si funciona con Forge mejor?', CAST(N'2022-09-06T19:52:00.000' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (3, N'Angelly', 1, N'Probaste a ver si los Nvidia drivers estan updated?', CAST(N'2022-09-06T19:53:00.000' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (4, N'Edu', 2, N'No estan Spawning los ajolotes esos en el swamp', CAST(N'2022-09-05T19:52:00.000' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (5, N'Angelly', 3, N'Deberiamos bajarle al precio de la Bucky para poder Comprarla round 1.', CAST(N'2022-09-01T19:52:00.000' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (6, N'Joesar', 1, N'Hay no que no esta funcionando', CAST(N'2022-08-30T06:35:00.000' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (7, N'Joesar', 3, N'En serio? No crees que seria demasiado OP?', CAST(N'2022-09-07T09:31:42.457' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (8, N'Joesar', 4, N'Por alguna razon, cuando el monstruo se acerca, el vc empieza a fallar', CAST(N'2022-09-07T10:18:28.793' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (9, N'Edu', 3, N'Alomejor pero no lo se.', CAST(N'2022-09-07T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (10, N'Edu', 3, N'Podria ser pero no va a ser mas OP que la Frenzy.', CAST(N'2022-09-07T11:00:58.280' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (11, N'Angelly', 4, N'Yo no se pero ese juego a mi me hace llorar. </3 :(', CAST(N'2022-09-07T11:04:42.147' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (12, N'Joesar', 1, N'Parece que esta funcionando con Nvidia pero no AMD', CAST(N'2022-09-07T09:19:36.467' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (13, N'Joesar', 2, N'Voy a intentar ver si sucede lo mismo en otros biomes.', CAST(N'2022-09-07T09:24:54.900' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (14, N'Angelly', 4, N'Creo que sucede cuando ser acerca demasiado el monstruo', CAST(N'2022-09-09T10:44:00.000' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (15, N'Edu', 4, N'Yo creo que puede ser un problema con las ratas', CAST(N'2022-09-09T10:48:00.000' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (16, N'Edu', 4, N'O tal vez con las zombies, no se', CAST(N'2022-09-09T10:52:00.000' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (17, N'Angelly', 4, N'Creo que estoy consiguiendo arreglaro, si era el monstruo', CAST(N'2022-09-09T11:28:00.000' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (18, N'Angelly', 3, N'La voy a poner a 750 a ver como va la cosa', CAST(N'2022-09-09T11:36:00.000' AS DateTime))
+GO
+INSERT [dbo].[Comentario] ([Codigo_Comentario], [Username], [Codigo_Bug], [Comentario], [Datetime]) VALUES (19, N'Joesar', 5, N'Por alguna razon solo funciona si lo timeas perfectamente con el salto, no se porque pasa esto. El forward dash y side dashes funionan bien tho.', CAST(N'2022-09-09T11:54:12.773' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[Comentario] OFF
+GO
+INSERT [dbo].[Desarrollador] ([Codigo_Desarrollador], [Username], [Lenguajes_Programacion], [Tecnologias_Dominadas], [Equipo]) VALUES (101, N'Joesar', N'Python, C++ ', N'Websites, CyberSecurity', 1)
+GO
+INSERT [dbo].[Desarrollador] ([Codigo_Desarrollador], [Username], [Lenguajes_Programacion], [Tecnologias_Dominadas], [Equipo]) VALUES (102, N'Edu', N'Python', N'Xbos', 1)
+GO
+INSERT [dbo].[Desarrollador] ([Codigo_Desarrollador], [Username], [Lenguajes_Programacion], [Tecnologias_Dominadas], [Equipo]) VALUES (103, N'Angelly', N'C++', N'Discord', 2)
+GO
+INSERT [dbo].[Desarrolladores en Proyecto] ([Codigo_Desarrollador], [Codigo_Proyecto]) VALUES (101, 201)
+GO
+INSERT [dbo].[Desarrolladores en Proyecto] ([Codigo_Desarrollador], [Codigo_Proyecto]) VALUES (101, 202)
+GO
+INSERT [dbo].[Desarrolladores en Proyecto] ([Codigo_Desarrollador], [Codigo_Proyecto]) VALUES (101, 203)
+GO
+INSERT [dbo].[Desarrolladores en Proyecto] ([Codigo_Desarrollador], [Codigo_Proyecto]) VALUES (102, 201)
+GO
+INSERT [dbo].[Desarrolladores en Proyecto] ([Codigo_Desarrollador], [Codigo_Proyecto]) VALUES (102, 202)
+GO
+INSERT [dbo].[Desarrolladores en Proyecto] ([Codigo_Desarrollador], [Codigo_Proyecto]) VALUES (103, 201)
+GO
+INSERT [dbo].[Desarrolladores en Proyecto] ([Codigo_Desarrollador], [Codigo_Proyecto]) VALUES (103, 203)
+GO
+INSERT [dbo].[Proyecto_Software] ([Codigo_Proyecto], [Nombre], [Fecha_Inicio], [Fecha_Final]) VALUES (201, N'Minecraft', NULL, NULL)
+GO
+INSERT [dbo].[Proyecto_Software] ([Codigo_Proyecto], [Nombre], [Fecha_Inicio], [Fecha_Final]) VALUES (202, N'Valorant', NULL, NULL)
+GO
+INSERT [dbo].[Proyecto_Software] ([Codigo_Proyecto], [Nombre], [Fecha_Inicio], [Fecha_Final]) VALUES (203, N'Devour', NULL, NULL)
+GO
+INSERT [dbo].[Users] ([Username], [Password], [Nombre_Completo], [Rol]) VALUES (N'Angelly', N'345', N'Angelly Ojasmar', N'Developer')
+GO
+INSERT [dbo].[Users] ([Username], [Password], [Nombre_Completo], [Rol]) VALUES (N'Edu', N'234', N'Eduardo Diaz', N'Developer')
+GO
+INSERT [dbo].[Users] ([Username], [Password], [Nombre_Completo], [Rol]) VALUES (N'Joesar', N'123', N'Josue Espinal', N'Developer')
+GO
+ALTER TABLE [dbo].[Bug]  WITH CHECK ADD  CONSTRAINT [FK_Bug_Proyecto_Software] FOREIGN KEY([Codigo_Proyecto])
+REFERENCES [dbo].[Proyecto_Software] ([Codigo_Proyecto])
+GO
+ALTER TABLE [dbo].[Bug] CHECK CONSTRAINT [FK_Bug_Proyecto_Software]
+GO
+ALTER TABLE [dbo].[Comentario]  WITH CHECK ADD  CONSTRAINT [FK_Comentario_Bug] FOREIGN KEY([Codigo_Bug])
+REFERENCES [dbo].[Bug] ([Codigo_Bug])
+GO
+ALTER TABLE [dbo].[Comentario] CHECK CONSTRAINT [FK_Comentario_Bug]
+GO
+ALTER TABLE [dbo].[Comentario]  WITH CHECK ADD  CONSTRAINT [FK_Comentario_User] FOREIGN KEY([Username])
+REFERENCES [dbo].[Users] ([Username])
+GO
+ALTER TABLE [dbo].[Comentario] CHECK CONSTRAINT [FK_Comentario_User]
+GO
+ALTER TABLE [dbo].[Desarrollador]  WITH CHECK ADD  CONSTRAINT [FK_Desarrollador_User] FOREIGN KEY([Username])
+REFERENCES [dbo].[Users] ([Username])
+GO
+ALTER TABLE [dbo].[Desarrollador] CHECK CONSTRAINT [FK_Desarrollador_User]
+GO
+ALTER TABLE [dbo].[Desarrolladores en Proyecto]  WITH CHECK ADD  CONSTRAINT [FK_Desarrolladores en Proyecto_Desarrollador] FOREIGN KEY([Codigo_Desarrollador])
+REFERENCES [dbo].[Desarrollador] ([Codigo_Desarrollador])
+GO
+ALTER TABLE [dbo].[Desarrolladores en Proyecto] CHECK CONSTRAINT [FK_Desarrolladores en Proyecto_Desarrollador]
+GO
+ALTER TABLE [dbo].[Desarrolladores en Proyecto]  WITH CHECK ADD  CONSTRAINT [FK_Desarrolladores en Proyecto_Proyecto_Software] FOREIGN KEY([Codigo_Proyecto])
+REFERENCES [dbo].[Proyecto_Software] ([Codigo_Proyecto])
+GO
+ALTER TABLE [dbo].[Desarrolladores en Proyecto] CHECK CONSTRAINT [FK_Desarrolladores en Proyecto_Proyecto_Software]
+GO
+USE [master]
+GO
+ALTER DATABASE [Proj_Teoria1] SET  READ_WRITE 
+GO
