@@ -10,7 +10,7 @@ NOTES
 
 In this project three apps were created:
 
-<h3>SOFTWARE DEVELOPEMENT MANAGER APP:</h3>
+<h3>Software Developer's Manager App</h3>
 <ol>
   <li>Make the CRUD for software projects and developers. Each software project has a team of developers.</li>
   <li>Keep track of bug statistics (Pie chart).
